@@ -5,11 +5,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { theme = 'murder', difficulty = 'medium' } = body;
 
-    // Mock case data for development
-    const mockCase = {
-      caseId: `case-${Date.now()}`,
-      crimeScene: {
-        id: `scene-${Date.now()}`,
+    // Multiple case templates for variety
+    const caseTemplates = [
+      {
         title: 'The Stolen Diamond Heist',
         location: 'Mansion Library',
         timeOfCrime: '10:30 PM',
@@ -24,6 +22,65 @@ export async function POST(request: NextRequest) {
           'Muddy footprints leading to the garden',
           'A torn piece of fabric caught on the window latch',
         ],
+      },
+      {
+        title: 'The Art Gallery Forgery',
+        location: 'Modern Art Gallery',
+        timeOfCrime: '2:15 AM',
+        victimName: 'Eleanor Vance',
+        victimAge: 48,
+        victimOccupation: 'Gallery Curator',
+        causeOfDeath: 'Poisoning',
+        description: 'Eleanor Vance was found dead in the gallery storage room. A priceless painting has been replaced with a forgery. Security footage shows someone entering the gallery after hours.',
+        initialEvidence: [
+          'Forged painting left behind',
+          'Empty poison vial near the body',
+          'Security camera footage tampered with',
+          'Glove with paint stains',
+        ],
+      },
+      {
+        title: 'The Tech CEO Murder',
+        location: 'Silicon Valley Office',
+        timeOfCrime: '8:45 PM',
+        victimName: 'Marcus Chen',
+        victimAge: 42,
+        victimOccupation: 'Tech CEO',
+        causeOfDeath: 'Electrocution',
+        description: 'Marcus Chen was found dead in his high-tech office. His latest AI prototype has been stolen. The office security system shows no forced entry.',
+        initialEvidence: [
+          'Tampered electrical outlet',
+          'Deleted server logs',
+          'USB drive left at the scene',
+          'Coffee cup with unusual residue',
+        ],
+      },
+      {
+        title: 'The Cruise Ship Mystery',
+        location: 'Luxury Cruise Ship',
+        timeOfCrime: '11:20 PM',
+        victimName: 'Captain Robert Hayes',
+        victimAge: 58,
+        victimOccupation: 'Ship Captain',
+        causeOfDeath: 'Drowning',
+        description: 'Captain Hayes was found drowned in his own cabin. The ship\'s logbook is missing, and a lifeboat has been lowered. The ship was in international waters.',
+        initialEvidence: [
+          'Missing logbook',
+          'Lowered lifeboat',
+          'Wet footprints on the deck',
+          'Distress signal sent but canceled',
+        ],
+      },
+    ];
+
+    // Randomly select a case template
+    const randomCase = caseTemplates[Math.floor(Math.random() * caseTemplates.length)];
+    
+    const mockCase = {
+      caseId: `case-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      crimeScene: {
+        id: `scene-${Date.now()}`,
+        ...randomCase,
       },
       suspects: [
         {
