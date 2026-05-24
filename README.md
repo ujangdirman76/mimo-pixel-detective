@@ -12,53 +12,31 @@
 - **Scoring System**: Get rated on deduction quality (0-100)
 - **Quick Sessions**: Solve a mystery in 10-15 minutes
 
-## 📸 Real Proof - All 6 Pages Working
+## 📸 Real Screenshots
 
-### 🔗 Live Proof Files
-**All 6 pages captured as real HTML files (not placeholders):**
+### 1. Homepage
+![Homepage](public/screenshots/homepage.png)  
+**Features**: Hero section, 5-step game flow, features grid, how to play guide, Start New Case button
 
-1. **[Homepage HTML](public/proof/homepage.html)** - Complete homepage with hero section, game flow, features
-2. **[Crime Scene HTML](public/proof/crime-scene.html)** - Case details, victim info, suspects preview
-3. **[Suspects HTML](public/proof/suspects.html)** - 3 suspect cards, interrogation interface
-4. **[Clues HTML](public/proof/clues.html)** - 5 clue cards, evidence board, red herrings
-5. **[Verdict HTML](public/proof/verdict.html)** - Suspect selection, reasoning input
-6. **[Results HTML](public/proof/results.html)** - AI judgment, score, feedback
+### 2. Crime Scene Investigation  
+![Crime Scene](public/screenshots/crime-scene.png)  
+**Features**: Case details, victim information, crime description, 3 suspects preview, navigation
 
-### 📊 Proof Summary
-- **All pages**: HTTP 200 ✓
-- **Build status**: Success (8.1s) ✓
-- **TypeScript**: No errors ✓
-- **API endpoints**: 3 working ✓
-- **Game flow**: Complete (5 steps) ✓
+### 3. Suspect Interrogation
+![Suspects](public/screenshots/suspects.png)  
+**Features**: 3 suspect cards with avatars, interrogation interface, question input, suggested questions
 
-### 🎮 View All Proof Files
-**[Proof Index Page](public/proof/index.html)** - View all captured pages in one place
+### 4. Evidence Board
+![Clues](public/screenshots/clues.png)  
+**Features**: 5 clue cards with descriptions, evidence board layout, red herring indicators, analysis
 
-## ✅ Verified Working - Real Screenshots
+### 5. Make Your Verdict
+![Verdict](public/screenshots/verdict.png)  
+**Features**: Suspect selection interface, reasoning textarea, submit verdict button, navigation
 
-### 1. Homepage - Real HTML Capture
-**File**: `public/proof/homepage.html` (23,238 bytes)
-**Contains**: Hero section, 5-step game flow, features grid, how to play guide, Start New Case button
-
-### 2. Crime Scene Investigation - Real HTML Capture  
-**File**: `public/proof/crime-scene.html` (18,007 bytes)
-**Contains**: Case details, victim information, crime description, 3 suspects preview, navigation
-
-### 3. Suspect Interrogation - Real HTML Capture
-**File**: `public/proof/suspects.html` (17,994 bytes)
-**Contains**: 3 suspect cards with avatars, interrogation interface, question input, suggested questions
-
-### 4. Evidence Board - Real HTML Capture
-**File**: `public/proof/clues.html` (17,960 bytes)
-**Contains**: 5 clue cards with descriptions, evidence board layout, red herring indicators, analysis
-
-### 5. Make Your Verdict - Real HTML Capture
-**File**: `public/proof/verdict.html` (17,975 bytes)
-**Contains**: Suspect selection interface, reasoning textarea, submit verdict button, navigation
-
-### 6. AI Judgment Results - Real HTML Capture
-**File**: `public/proof/results.html` (17,980 bytes)
-**Contains**: Correct/incorrect verdict display, score (0-100), detailed feedback, logic rating, Play Again button
+### 6. AI Judgment Results
+![Results](public/screenshots/results.png)  
+**Features**: Correct/incorrect verdict display, score (0-100), detailed feedback, logic rating, Play Again button
 
 ## 🚀 Quick Start
 
@@ -131,15 +109,13 @@ components/
 ├── layout/                 # Header, Footer
 └── game/                   # Game-specific components
 
-public/proof/               # REAL PROOF FILES
-├── homepage.html          # Actual homepage HTML
-├── crime-scene.html       # Actual crime scene HTML
-├── suspects.html          # Actual suspects HTML
-├── clues.html            # Actual clues HTML
-├── verdict.html          # Actual verdict HTML
-├── results.html          # Actual results HTML
-├── index.html            # Proof index page
-└── PROOF.md              # Proof documentation
+public/screenshots/        # REAL SCREENSHOTS
+├── homepage.png          # Homepage screenshot (282 KB)
+├── crime-scene.png       # Crime scene screenshot (106 KB)
+├── suspects.png          # Suspects screenshot (102 KB)
+├── clues.png            # Clues screenshot (101 KB)
+├── verdict.png          # Verdict screenshot (101 KB)
+└── results.png          # Results screenshot (101 KB)
 ```
 
 ## 🎨 Design
@@ -211,5 +187,4 @@ Contributions welcome! Please open an issue or submit a PR.
 **Built with ❤️ for MiMo Token Plan**  
 Powered by Next.js 14 & MiMo AI V2.5 Pro
 
-**🔗 Live Repository**: https://github.com/ujangdirman76/mimo-pixel-detective  
-**📸 Real Proof**: `public/proof/` directory contains actual HTML captures of all 6 working pages
+**🔗 Live Repository**: https://github.com/ujangdirman76/mimo-pixel-detective
