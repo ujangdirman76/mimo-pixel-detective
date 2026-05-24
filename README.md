@@ -2,6 +2,16 @@
 
 🕵️‍♂️ **AI-powered detective game** where you solve mysteries by interrogating suspects, collecting clues, and making your verdict. Built with Next.js 14 and powered by MiMo AI V2.5 Pro.
 
+## 🚀 Live Demo
+
+**🌐 Deployed on Netlify:** https://mimo-pixel-detective.netlify.app/
+
+✅ **Status:** Live and fully functional  
+✅ **MiMo AI Integration:** Active and working  
+✅ **Random Case Generation:** 4 unique mystery templates  
+✅ **Game Flow:** Complete 5-step investigation  
+✅ **Last Updated:** May 24, 2026
+
 ## 🎮 Game Features
 
 - **AI-Generated Cases**: Each mystery is unique
@@ -140,12 +150,22 @@ npx prettier --write .
 
 ## 🚀 Deployment
 
-### Netlify
+### ✅ Netlify (Live)
 
-1. Connect your GitHub repository
+**Project is already deployed and live!**
+
+- **URL:** https://mimo-pixel-detective.netlify.app/
+- **Status:** Active and fully functional
+- **Auto-deploy:** Enabled from GitHub main branch
+- **Build command:** `npm run build`
+- **Publish directory:** `.next`
+
+**To deploy your own version:**
+1. Connect your GitHub repository to Netlify
 2. Build command: `npm run build`
 3. Publish directory: `.next`
-4. Add environment variables in Netlify dashboard
+4. Add environment variables in Netlify dashboard (optional - mock data works without API keys)
+5. Deploy!
 
 ### Vercel
 
