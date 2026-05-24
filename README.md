@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MiMo Pixel Detective
 
-## Getting Started
+🕵️‍♂️ **AI-powered detective game** where you solve mysteries by interrogating suspects, collecting clues, and making your verdict. Built with Next.js 14 and powered by MiMo AI V2.5 Pro.
 
-First, run the development server:
+## 🎮 Game Features
+
+- **AI-Generated Cases**: Each mystery is unique
+- **3 Suspects**: Interrogate and uncover the truth
+- **5 Clues**: Mix of real evidence and red herrings
+- **Dynamic Dialogue**: AI-powered suspect responses
+- **AI Judgment**: Your verdict is evaluated by advanced AI
+- **Scoring System**: Get rated on deduction quality (0-100)
+- **Quick Sessions**: Solve a mystery in 10-15 minutes
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to play!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎯 Game Flow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Crime Scene** → Read case details and victim info
+2. **Suspects** → Interrogate 3 suspects with custom questions
+3. **Clues** → Review 5 pieces of evidence
+4. **Verdict** → Accuse the culprit and explain your reasoning
+5. **Results** → Get AI judgment, score, and feedback
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **AI Integration**: MiMo AI V2.5 Pro + Groq fallback
+- **UI Components**: Radix UI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create a `.env.local` file:
 
-## Deploy on Vercel
+```env
+NEXT_PUBLIC_MIMO_API_KEY=your_mimo_api_key_here
+NEXT_PUBLIC_GROQ_API_KEY=your_groq_api_key_here
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Note**: The game works with mock data if no API keys are provided (perfect for development).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Project Structure
+
+```
+app/
+├── layout.tsx              # Root layout
+├── page.tsx                # Homepage
+├── crime-scene/page.tsx    # Case investigation
+├── suspects/page.tsx       # Interrogation interface
+├── clues/page.tsx          # Evidence board
+├── verdict/page.tsx        # Accusation form
+├── results/page.tsx        # AI judgment
+└── api/
+    ├── game/generate-case/ # Generate mystery case
+    ├── ai/interrogate/     # Suspect responses
+    └── ai/judge-verdict/   # Evaluate verdict
+
+lib/
+├── types/game.ts           # TypeScript interfaces
+├── store/gameStore.ts      # Zustand state management
+└── api/client.ts           # API client
+
+components/
+├── layout/                 # Header, Footer
+└── game/                   # Game-specific components
+```
+
+## 🎨 Design
+
+- **Theme**: Detective noir with pixel art aesthetic
+- **Colors**: Dark slate background, yellow accents, red highlights
+- **Typography**: Geist Sans (modern, clean)
+- **Responsive**: Mobile-first design
+
+## 🧪 Development
+
+```bash
+# Run linter
+npm run lint
+
+# Type check
+npx tsc --noEmit
+
+# Format code
+npx prettier --write .
+```
+
+## 🚀 Deployment
+
+### Netlify
+
+1. Connect your GitHub repository
+2. Build command: `npm run build`
+3. Publish directory: `.next`
+4. Add environment variables in Netlify dashboard
+
+### Vercel
+
+1. Import your GitHub repository
+2. Vercel auto-detects Next.js settings
+3. Add environment variables in project settings
+4. Deploy!
+
+## 📝 MVP Requirements
+
+✅ 1 case per session  
+✅ 3 suspects  
+✅ 5 clues  
+✅ Final verdict  
+✅ AI-generated mystery case  
+✅ AI-generated suspect dialogue  
+✅ AI-generated clues  
+✅ AI judgment of accusation  
+
+## 🎯 Future Enhancements
+
+- Multiple case themes (murder, theft, espionage)
+- Difficulty levels (easy, medium, hard)
+- Leaderboard and achievements
+- Multiplayer mode
+- Case history and replay
+- Custom case creator
+
+## 📄 License
+
+MIT License - feel free to use this project for learning or commercial purposes.
+
+## 🤝 Contributing
+
+Contributions welcome! Please open an issue or submit a PR.
+
+---
+
+**Built with ❤️ for MiMo Token Plan**  
+Powered by Next.js 14 & MiMo AI V2.5 Pro

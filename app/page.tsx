@@ -1,65 +1,143 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import Link from 'next/link';
+import { useGameStore } from '@/lib/store/gameStore';
+import { useEffect } from 'react';
+
+export default function HomePage() {
+  const { startNewGame, isLoading } = useGameStore();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="max-w-4xl mx-auto">
+      {/* Hero Section */}
+      <div className="text-center mb-12 py-12">
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-yellow-400">
+          🕵️‍♂️ MiMo Pixel Detective
+        </h1>
+        <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+          Solve AI-generated mysteries. Interrogate suspects. Collect clues. Find the truth.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/crime-scene"
+            className="px-8 py-4 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors text-lg shadow-lg"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            🚀 Start New Case
+          </Link>
+          <button
+            onClick={() => startNewGame()}
+            disabled={isLoading}
+            className="px-8 py-4 bg-yellow-500/20 text-yellow-400 font-bold rounded-lg hover:bg-yellow-500/30 transition-colors text-lg border-2 border-yellow-400 disabled:opacity-50"
           >
-            Documentation
-          </a>
+            {isLoading ? '⏳ Loading...' : '📖 How to Play'}
+          </button>
         </div>
-      </main>
+      </div>
+
+      {/* Game Flow */}
+      <div className="mb-12">
+        <h2 className="text-3xl font-bold mb-8 text-yellow-400 text-center">🎮 Game Flow</h2>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {[
+            { step: "1", title: "Crime Scene", desc: "Read case details", icon: "🔍" },
+            { step: "2", title: "Suspects", desc: "Interrogate 3 suspects", icon: "👥" },
+            { step: "3", title: "Clues", desc: "Collect 5 pieces of evidence", icon: "🔎" },
+            { step: "4", title: "Verdict", desc: "Accuse the culprit", icon: "⚖️" },
+            { step: "5", title: "Results", desc: "AI judgment & score", icon: "📊" },
+          ].map((item) => (
+            <div
+              key={item.step}
+              className="bg-slate-800 p-6 rounded-lg border-2 border-slate-700 hover:border-yellow-400 transition-colors text-center"
+            >
+              <div className="text-4xl mb-2">{item.icon}</div>
+              <div className="text-2xl font-bold text-yellow-400 mb-2">{item.step}</div>
+              <h3 className="font-bold mb-1 text-slate-100">{item.title}</h3>
+              <p className="text-sm text-slate-400">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="mb-12">
+        <h2 className="text-3xl font-bold mb-8 text-yellow-400 text-center">✨ Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            { icon: "🤖", title: "AI-Generated Cases", desc: "Each mystery is unique, generated by MiMo AI V2.5 Pro" },
+            { icon: "💬", title: "Dynamic Dialogue", desc: "Suspects respond naturally to your interrogations" },
+            { icon: "🔍", title: "5 Clues Per Case", desc: "Mix of real evidence and red herrings" },
+            { icon: "⚖️", title: "AI Judgment", desc: "Your verdict is evaluated by advanced AI logic" },
+            { icon: "📈", title: "Scoring System", desc: "Get rated on deduction quality and evidence usage" },
+            { icon: "🎮", title: "Quick Sessions", desc: "Solve a mystery in 10-15 minutes" },
+          ].map((feature, idx) => (
+            <div key={idx} className="bg-slate-800 p-6 rounded-lg border border-slate-700">
+              <div className="text-4xl mb-3">{feature.icon}</div>
+              <h3 className="text-xl font-bold text-yellow-400 mb-2">{feature.title}</h3>
+              <p className="text-slate-400">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* How to Play */}
+      <div className="bg-slate-800 p-8 rounded-lg border-2 border-yellow-400 mb-12">
+        <h2 className="text-3xl font-bold mb-6 text-yellow-400">📖 How to Play</h2>
+        <ol className="space-y-4 text-slate-300">
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">1️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Start a New Case</h3>
+              <p>Click "Start New Case" to generate a unique mystery with suspects and clues.</p>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">2️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Read the Crime Scene</h3>
+              <p>Understand the case details, victim info, and initial evidence.</p>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">3️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Interrogate Suspects</h3>
+              <p>Ask questions to 3 suspects and listen to their responses.</p>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">4️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Collect Clues</h3>
+              <p>Review 5 pieces of evidence. Some are real, some are red herrings.</p>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">5️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Make Your Verdict</h3>
+              <p>Accuse the suspect you think is guilty and explain your reasoning.</p>
+            </div>
+          </li>
+          <li className="flex gap-4">
+            <span className="text-2xl font-bold text-yellow-400 min-w-12">6️⃣</span>
+            <div>
+              <h3 className="font-bold text-slate-100">Get AI Judgment</h3>
+              <p>AI evaluates your deduction and gives you a score (0-100).</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      {/* CTA */}
+      <div className="text-center py-8">
+        <Link
+          href="/crime-scene"
+          className="inline-block px-12 py-4 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors text-xl shadow-lg"
+        >
+          🚀 Start Your First Case Now!
+        </Link>
+      </div>
     </div>
   );
 }
