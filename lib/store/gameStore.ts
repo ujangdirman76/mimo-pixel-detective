@@ -35,7 +35,13 @@ export const useGameStore = create<GameStore>((set) => ({
   startNewGame: async () => {
     set({ isLoading: true, error: null, currentPhase: 'crime-scene' });
     try {
-      const response = await fetch('/api/game/generate-case', { method: 'POST' });
+      const response = await fetch('/api/game/generate-case', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ theme: 'murder', difficulty: 'medium' }),
+      });
       const data = await response.json();
       
       if (!response.ok) throw new Error(data.error || 'Failed to generate case');
