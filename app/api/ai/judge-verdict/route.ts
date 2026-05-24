@@ -1,13 +1,132 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const GROQ_API_BASE = 'https://api.groq.com/openai/v1';
+const MIMO_API_BASE = 'https://token-plan-sgp.xiaomimomo.com/v1';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { caseId, accusedSuspectId, reasoning, evidence, interrogations } = body;
 
+    const groqKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+    const mimoKey = process.env.NEXT_PUBLIC_MIMO_API_KEY;
+
     // The correct suspect is 'suspect-2' (Victoria Sterling)
     const correctSuspectId = 'suspect-2';
     const isCorrect = accusedSuspectId === correctSuspectId;
+
+    // Try Groq first (primary)
+    if (groqKey) {
+      try {
+        const response = await fetch(`${GROQ_API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${groqKey}`,
+          },
+          body: JSON.stringify({
+            model: 'mixtral-8x7b-32768',
+            messages: [
+              {
+                role: 'system',
+                content: `You are a detective AI judging a murder case verdict. The correct culprit is suspect-2 (Victoria Sterling). Evaluate the player's accusation and reasoning. Provide: score (0-100), feedback, deduction quality, evidence usage, and logic rating (1-5).`,
+              },
+              {
+                role: 'user',
+                content: `Player accused: ${accusedSuspectId}\nReasoning: ${reasoning}\nIs correct: ${isCorrect}`,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 300,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const aiResponse = data.choices[0].message.content;
+          
+          // Parse AI response or use structured format
+          let score = isCorrect ? 85 : 35;
+          const reasoningLower = reasoning.toLowerCase();
+          const goodKeywords = ['fabric', 'safe', 'combination', 'family', 'lipstick', 'champagne', 'debt', 'inheritance'];
+          const keywordCount = goodKeywords.filter(kw => reasoningLower.includes(kw)).length;
+          
+          if (isCorrect) {
+            score = 70 + (keywordCount * 3);
+            score = Math.min(score, 100);
+          }
+
+          return NextResponse.json({
+            isCorrect,
+            correctSuspectId,
+            score,
+            feedback: aiResponse,
+            deductionQuality: isCorrect ? 'Good work!' : 'Incorrect suspect',
+            evidenceUsage: isCorrect ? 'Good use of evidence' : 'Key clues missed',
+            logicRating: isCorrect ? 4 : 2,
+          });
+        }
+      } catch (groqError) {
+        console.log('Groq API failed, trying MiMo fallback...');
+      }
+    }
+
+    // Try MiMo fallback
+    if (mimoKey) {
+      try {
+        const response = await fetch(`${MIMO_API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${mimoKey}`,
+          },
+          body: JSON.stringify({
+            model: 'mimo-ai-v2.5-pro',
+            messages: [
+              {
+                role: 'system',
+                content: `You are a detective AI judging a murder case verdict. The correct culprit is suspect-2 (Victoria Sterling). Evaluate the player's accusation and reasoning. Provide: score (0-100), feedback, deduction quality, evidence usage, and logic rating (1-5).`,
+              },
+              {
+                role: 'user',
+                content: `Player accused: ${accusedSuspectId}\nReasoning: ${reasoning}\nIs correct: ${isCorrect}`,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 300,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const aiResponse = data.choices[0].message.content;
+          
+          let score = isCorrect ? 85 : 35;
+          const reasoningLower = reasoning.toLowerCase();
+          const goodKeywords = ['fabric', 'safe', 'combination', 'family', 'lipstick', 'champagne', 'debt', 'inheritance'];
+          const keywordCount = goodKeywords.filter(kw => reasoningLower.includes(kw)).length;
+          
+          if (isCorrect) {
+            score = 70 + (keywordCount * 3);
+            score = Math.min(score, 100);
+          }
+
+          return NextResponse.json({
+            isCorrect,
+            correctSuspectId,
+            score,
+            feedback: aiResponse,
+            deductionQuality: isCorrect ? 'Good work!' : 'Incorrect suspect',
+            evidenceUsage: isCorrect ? 'Good use of evidence' : 'Key clues missed',
+            logicRating: isCorrect ? 4 : 2,
+          });
+        }
+      } catch (mimoError) {
+        console.log('MiMo API also failed');
+      }
+    }
+
+    // Fallback to rule-based judgment if both APIs fail
 
     // Calculate score based on correctness and reasoning quality
     let score = 0;

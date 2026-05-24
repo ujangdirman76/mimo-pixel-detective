@@ -1,11 +1,109 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const GROQ_API_BASE = 'https://api.groq.com/openai/v1';
+const MIMO_API_BASE = 'https://token-plan-sgp.xiaomimomo.com/v1';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { suspectId, question, caseContext } = body;
 
-    // Mock responses based on suspect ID
+    const groqKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+    const mimoKey = process.env.NEXT_PUBLIC_MIMO_API_KEY;
+
+    // Try Groq first (primary)
+    if (groqKey) {
+      try {
+        const response = await fetch(`${GROQ_API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${groqKey}`,
+          },
+          body: JSON.stringify({
+            model: 'mixtral-8x7b-32768',
+            messages: [
+              {
+                role: 'system',
+                content: `You are a suspect in a murder investigation. Respond in character based on this context: ${caseContext}. Keep responses brief (1-2 sentences). Include emotional cues in your response.`,
+              },
+              {
+                role: 'user',
+                content: question,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 150,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const answer = data.choices[0].message.content;
+          const emotions: Array<'neutral' | 'nervous' | 'angry' | 'sad' | 'evasive'> = [
+            'neutral', 'nervous', 'angry', 'sad', 'evasive'
+          ];
+          const emotion = emotions[Math.floor(Math.random() * emotions.length)];
+          const truthfulness = suspectId === 'suspect-2' ? 40 : 85;
+
+          return NextResponse.json({
+            answer,
+            emotion,
+            truthfulness,
+          });
+        }
+      } catch (groqError) {
+        console.log('Groq API failed, trying MiMo fallback...');
+      }
+    }
+
+    // Try MiMo fallback
+    if (mimoKey) {
+      try {
+        const response = await fetch(`${MIMO_API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${mimoKey}`,
+          },
+          body: JSON.stringify({
+            model: 'mimo-ai-v2.5-pro',
+            messages: [
+              {
+                role: 'system',
+                content: `You are a suspect in a murder investigation. Respond in character based on this context: ${caseContext}. Keep responses brief (1-2 sentences). Include emotional cues in your response.`,
+              },
+              {
+                role: 'user',
+                content: question,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 150,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const answer = data.choices[0].message.content;
+          const emotions: Array<'neutral' | 'nervous' | 'angry' | 'sad' | 'evasive'> = [
+            'neutral', 'nervous', 'angry', 'sad', 'evasive'
+          ];
+          const emotion = emotions[Math.floor(Math.random() * emotions.length)];
+          const truthfulness = suspectId === 'suspect-2' ? 40 : 85;
+
+          return NextResponse.json({
+            answer,
+            emotion,
+            truthfulness,
+          });
+        }
+      } catch (mimoError) {
+        console.log('MiMo API also failed');
+      }
+    }
+
+    // Fallback to mock data if both APIs fail
     const mockResponses: Record<string, string[]> = {
       'suspect-1': [
         "I was in the kitchen all evening, preparing refreshments for the guests.",
@@ -40,11 +138,10 @@ export async function POST(request: NextRequest) {
       "You'll have to ask someone else.",
     ];
 
-    // Pick a random response
     const randomIndex = Math.floor(Math.random() * responses.length);
     const answer = responses[randomIndex];
     const emotion = emotions[Math.floor(Math.random() * emotions.length)];
-    const truthfulness = suspectId === 'suspect-2' ? 40 : 85; // Victoria is less truthful
+    const truthfulness = suspectId === 'suspect-2' ? 40 : 85;
 
     return NextResponse.json({
       answer,
